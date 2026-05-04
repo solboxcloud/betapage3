@@ -607,12 +607,6 @@
     const sy = h * 0.18;
     const pulse = Math.sin(t * 2) * 0.15;
 
-    const g = ctx.createLinearGradient(sx - 28, 0, sx + 28, 0);
-    g.addColorStop(0, 'transparent');
-    g.addColorStop(0.5, `rgba(246,130,31,${0.5 + pulse})`);
-    g.addColorStop(1, 'transparent');
-    ctx.fillStyle = g; ctx.fillRect(sx - 28, 0, 56, h);
-
     ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, h);
     ctx.strokeStyle = `rgba(246,130,31,${0.85 + pulse})`;
     ctx.lineWidth = 2; ctx.stroke();
