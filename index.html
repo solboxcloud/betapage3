@@ -74,8 +74,8 @@
     /* HERO */
     .hero {
       min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-      text-align: center; padding: 120px 24px 48px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 48px;
       position: relative; overflow: hidden;
     }
     .hero-fade {
@@ -179,8 +179,9 @@
     }
     .traffic-legend {
       display: flex; gap: 28px; justify-content: center; align-items: center;
-      padding: 16px 0 8px; flex-wrap: wrap;
-      position: relative; z-index: 2; margin-top: auto;
+      flex-wrap: wrap;
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 2; white-space: nowrap;
     }
     .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--text-muted); }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
