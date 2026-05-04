@@ -10,12 +10,12 @@
     :root {
       --cf-orange: #F6821F;
       --cf-orange-dark: #d4691a;
-      --bg-dark: #080c18;
-      --bg-card: #0e1425;
-      --bg-card2: #131a30;
-      --border: rgba(246,130,31,0.18);
-      --text: #e8eaf6;
-      --text-muted: #7a83a8;
+      --bg-dark: #0d0d0d;
+      --bg-card: #161616;
+      --bg-card2: #1e1e1e;
+      --border: rgba(246,130,31,0.15);
+      --text: #f0eeeb;
+      --text-muted: #888880;
     }
 
     html { scroll-behavior: smooth; }
@@ -32,20 +32,19 @@
       content: '';
       position: fixed; inset: 0; z-index: -1;
       background:
-        radial-gradient(ellipse 100% 70% at 20% 0%, rgba(99,60,255,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 80% 60% at 80% 10%, rgba(246,130,31,0.09) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 80% at 50% 100%, rgba(56,120,255,0.08) 0%, transparent 50%),
-        linear-gradient(160deg, #080c18 0%, #0b1228 50%, #0d0f1e 100%);
+        radial-gradient(ellipse 90% 50% at 50% -5%, rgba(246,130,31,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 95% 95%, rgba(246,130,31,0.04) 0%, transparent 50%),
+        linear-gradient(180deg, #0d0d0d 0%, #111111 100%);
     }
 
     body::after {
       content: '';
       position: fixed; inset: 0; z-index: -1;
       background-image:
-        linear-gradient(rgba(99,120,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99,120,255,0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+        linear-gradient(rgba(246,130,31,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(246,130,31,0.025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black 20%, transparent 100%);
     }
 
     /* NAV */
@@ -80,9 +79,9 @@
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(246,130,31,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 15% 60%, rgba(99,60,255,0.1) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 30% at 85% 70%, rgba(56,180,255,0.08) 0%, transparent 50%);
+        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(246,130,31,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 30% at 10% 70%, rgba(246,130,31,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 90% 80%, rgba(246,130,31,0.04) 0%, transparent 50%);
     }
     .hero-content { position: relative; z-index: 1; max-width: 820px; }
     .hero-badge {
@@ -149,8 +148,28 @@
     .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
     .feature-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
 
+    /* TRAFFIC DEMO */
+    .demo-canvas-wrap {
+      margin-top: 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px;
+      overflow: hidden;
+    }
+    #trafficCanvas { width: 100%; height: 300px; display: block; border-radius: 14px; cursor: default; }
+    .traffic-legend {
+      display: flex; gap: 28px; justify-content: center; align-items: center;
+      padding: 16px 0 8px; flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--text-muted); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.green { background: #26d474; box-shadow: 0 0 6px #26d474; }
+    .legend-dot.red { background: #ff4444; box-shadow: 0 0 6px #ff4444; }
+    .legend-dot.orange { background: var(--cf-orange); box-shadow: 0 0 6px var(--cf-orange); }
+
     /* PAYMENT */
-    .payment-section { background: rgba(14,20,37,0.6); backdrop-filter: blur(2px); }
+    .payment-section { background: rgba(18,18,18,0.8); }
     .payment-inner { max-width: 900px; margin: 0 auto; }
     .payment-box {
       background: var(--bg-card2); border: 1px solid var(--border);
@@ -308,6 +327,23 @@
     <div class="stat-label">코인 결제 지원</div>
   </div>
 </div>
+
+<!-- TRAFFIC ANIMATION -->
+<section id="protection">
+  <div class="section-inner">
+    <div class="section-label">실시간 방어</div>
+    <div class="section-title">비정상 트래픽을 즉시 차단합니다</div>
+    <p class="section-desc">Cloudflare Enterprise 엣지가 악의적인 트래픽을 실시간으로 탐지하고 차단합니다.</p>
+    <div class="traffic-legend">
+      <div class="legend-item"><span class="legend-dot green"></span> 정상 트래픽 (통과)</div>
+      <div class="legend-item"><span class="legend-dot red"></span> 비정상 트래픽 (차단)</div>
+      <div class="legend-item"><span class="legend-dot orange"></span> Cloudflare Edge 쉴드</div>
+    </div>
+    <div class="demo-canvas-wrap">
+      <canvas id="trafficCanvas"></canvas>
+    </div>
+  </div>
+</section>
 
 <!-- FEATURES -->
 <section id="features">
@@ -477,6 +513,149 @@
 </footer>
 
 <script>
+  /* ── Traffic Animation ── */
+  const canvas = document.getElementById('trafficCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  class Packet {
+    constructor(spreadX) {
+      this.init(spreadX);
+    }
+    init(spreadX) {
+      this.x = spreadX != null ? Math.random() * canvas.width * spreadX : 0;
+      this.y = 24 + Math.random() * (canvas.height - 48);
+      this.vx = 1.8 + Math.random() * 2.2;
+      this.malicious = Math.random() < 0.38;
+      this.color = this.malicious ? '#ff4444' : '#26d474';
+      this.glow  = this.malicious ? 'rgba(255,68,68,' : 'rgba(38,212,116,';
+      this.r = 3.5 + Math.random() * 2.5;
+      this.trail = [];
+      this.exploding = false;
+      this.sparks = [];
+      this.done = false;
+    }
+    update(shieldX) {
+      if (this.exploding) {
+        this.sparks.forEach(s => { s.x += s.vx; s.y += s.vy; s.vy += 0.15; s.a -= 0.035; });
+        this.sparks = this.sparks.filter(s => s.a > 0);
+        if (!this.sparks.length) this.done = true;
+        return;
+      }
+      this.trail.unshift({ x: this.x, y: this.y });
+      if (this.trail.length > 10) this.trail.pop();
+      this.x += this.vx;
+      if (this.malicious && this.x + this.r >= shieldX) {
+        this.x = shieldX - this.r;
+        this.exploding = true;
+        for (let i = 0; i < 14; i++) {
+          const a = (Math.PI * 2 / 14) * i + Math.random() * 0.3;
+          const spd = 1.5 + Math.random() * 3;
+          this.sparks.push({ x: this.x, y: this.y, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, a: 1 });
+        }
+      }
+      if (!this.malicious && this.x > canvas.width + 20) this.done = true;
+    }
+    draw(ctx) {
+      if (this.exploding || this.done) {
+        this.sparks.forEach(s => {
+          ctx.beginPath(); ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,68,68,${s.a})`; ctx.fill();
+        });
+        return;
+      }
+      this.trail.forEach((p, i) => {
+        const t = 1 - i / this.trail.length;
+        ctx.beginPath(); ctx.arc(p.x, p.y, this.r * t * 0.7, 0, Math.PI * 2);
+        ctx.fillStyle = this.glow + (t * 0.25) + ')'; ctx.fill();
+      });
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = 10; ctx.shadowColor = this.color;
+      ctx.fill(); ctx.shadowBlur = 0;
+    }
+  }
+
+  const packets = [];
+  for (let i = 0; i < 28; i++) { packets.push(new Packet(0.48)); }
+
+  let lastSpawn = 0;
+
+  function drawShield(t) {
+    const sx = canvas.width * 0.5;
+    const h  = canvas.height;
+    const pulse = Math.sin(t * 2) * 0.15;
+
+    const g = ctx.createLinearGradient(sx - 24, 0, sx + 24, 0);
+    g.addColorStop(0, 'transparent');
+    g.addColorStop(0.5, `rgba(246,130,31,${0.55 + pulse})`);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g; ctx.fillRect(sx - 24, 0, 48, h);
+
+    ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, h);
+    ctx.strokeStyle = `rgba(246,130,31,${0.85 + pulse})`;
+    ctx.lineWidth = 2; ctx.stroke();
+
+    // Shield icon center
+    ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = `rgba(246,130,31,${0.9 + pulse})`;
+    ctx.shadowBlur = 14; ctx.shadowColor = '#F6821F';
+    ctx.fillText('🛡', sx, h / 2 + 8); ctx.shadowBlur = 0;
+
+    // Pulse ring
+    const rr = (t * 40) % 90;
+    ctx.beginPath(); ctx.arc(sx, h / 2, rr, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(246,130,31,${Math.max(0, 0.22 - rr / 90 * 0.22)})`;
+    ctx.lineWidth = 1.5; ctx.stroke();
+  }
+
+  function drawZones() {
+    const sx = canvas.width * 0.5;
+    const lg = ctx.createLinearGradient(0, 0, sx * 0.9, 0);
+    lg.addColorStop(0, 'rgba(255,68,68,0.04)'); lg.addColorStop(1, 'transparent');
+    ctx.fillStyle = lg; ctx.fillRect(0, 0, sx, canvas.height);
+
+    const rg = ctx.createLinearGradient(sx * 1.1, 0, canvas.width, 0);
+    rg.addColorStop(0, 'transparent'); rg.addColorStop(1, 'rgba(38,212,116,0.05)');
+    ctx.fillStyle = rg; ctx.fillRect(sx, 0, canvas.width - sx, canvas.height);
+  }
+
+  function drawLabels() {
+    const h = canvas.height; const w = canvas.width;
+    ctx.font = '11px Segoe UI, sans-serif';
+    ctx.fillStyle = 'rgba(136,136,128,0.7)';
+    ctx.textAlign = 'left';  ctx.fillText('인터넷', 12, h - 10);
+    ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(38,212,116,0.8)';
+    ctx.fillText('보호된 서버 ✓', w - 12, h - 10);
+  }
+
+  function animate(ts) {
+    requestAnimationFrame(animate);
+    const t = ts / 1000;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawZones();
+    drawShield(t);
+
+    for (let i = packets.length - 1; i >= 0; i--) {
+      packets[i].update(canvas.width * 0.5);
+      packets[i].draw(ctx);
+      if (packets[i].done) { packets.splice(i, 1); }
+    }
+
+    if (ts - lastSpawn > 350 && packets.length < 50) {
+      packets.push(new Packet(null)); lastSpawn = ts;
+    }
+    drawLabels();
+  }
+  requestAnimationFrame(animate);
+
+  /* ── Contact Form ── */
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
   const formMsg = document.getElementById('formMsg');
