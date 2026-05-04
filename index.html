@@ -74,9 +74,13 @@
     /* HERO */
     .hero {
       min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 120px 24px 80px;
-      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 60px;
+      position: relative; overflow: hidden; gap: 40px;
+    }
+    .hero-canvas-wrap {
+      width: 100%; max-width: 1100px;
+      position: relative; z-index: 1;
     }
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
@@ -162,7 +166,7 @@
       overflow: hidden;
       box-shadow: var(--shadow);
     }
-    #trafficCanvas { width: 100%; height: 300px; display: block; border-radius: 14px; cursor: default; }
+    #trafficCanvas { width: 100%; height: 420px; display: block; border-radius: 14px; cursor: default; }
     .traffic-legend {
       display: flex; gap: 28px; justify-content: center; align-items: center;
       padding: 16px 0 8px; flex-wrap: wrap;
@@ -314,6 +318,16 @@
       <a href="https://t.me/+7UglX4DEYDUxMGE9" target="_blank" rel="noopener" class="btn-secondary">텔레그램 문의</a>
     </div>
   </div>
+  <div class="hero-canvas-wrap">
+    <div class="traffic-legend">
+      <div class="legend-item"><span class="legend-dot green"></span> 정상 트래픽 (통과)</div>
+      <div class="legend-item"><span class="legend-dot red"></span> 비정상 트래픽 (차단)</div>
+      <div class="legend-item"><span class="legend-dot orange"></span> Cloudflare Enterprise Shield</div>
+    </div>
+    <div class="demo-canvas-wrap" style="margin-top:12px">
+      <canvas id="trafficCanvas"></canvas>
+    </div>
+  </div>
 </section>
 
 <!-- STATS -->
@@ -335,23 +349,6 @@
     <div class="stat-label">코인 결제 지원</div>
   </div>
 </div>
-
-<!-- TRAFFIC ANIMATION -->
-<section id="protection">
-  <div class="section-inner">
-    <div class="section-label">실시간 방어</div>
-    <div class="section-title">비정상 트래픽을 즉시 차단합니다</div>
-    <p class="section-desc">Cloudflare Enterprise 엣지가 악의적인 트래픽을 실시간으로 탐지하고 차단합니다.</p>
-    <div class="traffic-legend">
-      <div class="legend-item"><span class="legend-dot green"></span> 정상 트래픽 (통과)</div>
-      <div class="legend-item"><span class="legend-dot red"></span> 비정상 트래픽 (차단)</div>
-      <div class="legend-item"><span class="legend-dot orange"></span> Cloudflare Enterprise Shield</div>
-    </div>
-    <div class="demo-canvas-wrap">
-      <canvas id="trafficCanvas"></canvas>
-    </div>
-  </div>
-</section>
 
 <!-- FEATURES -->
 <section id="features">
