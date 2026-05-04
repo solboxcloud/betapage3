@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloudflare Enterprise | 솔박스 클라우드</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cf-orange: #F6821F;
+      --cf-orange-dark: #d4691a;
+      --bg-dark: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card2: #1a1a26;
+      --border: rgba(246,130,31,0.18);
+      --text: #e8e8f0;
+      --text-muted: #8888aa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 700; color: #fff; }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--cf-orange); }
+    .nav-cta {
+      background: var(--cf-orange); color: #fff; border: none;
+      padding: 10px 22px; border-radius: 8px; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--cf-orange-dark); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(246,130,31,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(246,130,31,0.08) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(246,130,31,0.1); border: 1px solid rgba(246,130,31,0.3);
+      color: var(--cf-orange); padding: 6px 16px; border-radius: 999px;
+      font-size: 0.85rem; font-weight: 600; margin-bottom: 28px;
+    }
+    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--cf-orange); display: inline-block; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 800; line-height: 1.15; margin-bottom: 24px; }
+    h1 em { color: var(--cf-orange); font-style: normal; }
+    .hero-sub { font-size: 1.2rem; color: var(--text-muted); max-width: 580px; margin: 0 auto 40px; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--cf-orange); color: #fff; padding: 14px 32px;
+      border-radius: 10px; font-size: 1rem; font-weight: 700;
+      text-decoration: none; transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(246,130,31,0.3);
+    }
+    .btn-primary:hover { background: var(--cf-orange-dark); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(246,130,31,0.4); }
+    .btn-secondary {
+      background: transparent; color: var(--text); padding: 14px 32px;
+      border-radius: 10px; font-size: 1rem; font-weight: 600;
+      text-decoration: none; border: 1px solid var(--border);
+      transition: border-color .2s, background .2s;
+    }
+    .btn-secondary:hover { border-color: var(--cf-orange); background: rgba(246,130,31,0.06); }
+
+    /* STATS */
+    .stats {
+      display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+      padding: 40px 24px; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat { text-align: center; padding: 24px 48px; }
+    .stat + .stat { border-left: 1px solid var(--border); }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--cf-orange); }
+    .stat-label { font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* SECTION */
+    section { padding: 96px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label { color: var(--cf-orange); font-size: 0.85rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 16px; }
+    .section-desc { color: var(--text-muted); font-size: 1.05rem; max-width: 540px; }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px; margin-top: 56px;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px;
+      transition: border-color .25s, transform .2s, box-shadow .25s;
+    }
+    .feature-card:hover { border-color: var(--cf-orange); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(246,130,31,0.12); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(246,130,31,0.12); display: flex; align-items: center;
+      justify-content: center; margin-bottom: 20px; font-size: 1.6rem;
+    }
+    .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+    .feature-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
+    /* PAYMENT */
+    .payment-section { background: var(--bg-card); }
+    .payment-inner { max-width: 900px; margin: 0 auto; }
+    .payment-box {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px; margin-top: 48px;
+      display: flex; align-items: center; gap: 48px; flex-wrap: wrap;
+    }
+    .payment-icon { font-size: 5rem; flex-shrink: 0; }
+    .payment-info h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
+    .payment-info p { color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; }
+    .coin-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(38,212,116,0.1); border: 1px solid rgba(38,212,116,0.3);
+      color: #26d474; padding: 8px 18px; border-radius: 999px;
+      font-weight: 700; font-size: 1rem;
+    }
+    .payment-steps { display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+    .payment-step { display: flex; align-items: flex-start; gap: 14px; }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--cf-orange);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .step-text { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* TELEGRAM */
+    .telegram-banner {
+      background: linear-gradient(135deg, #0088cc18, #0088cc08);
+      border: 1px solid rgba(0,136,204,0.25);
+      border-radius: 20px; padding: 40px; text-align: center; margin-top: 56px;
+    }
+    .telegram-banner .tg-icon { font-size: 3rem; margin-bottom: 16px; }
+    .telegram-banner h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
+    .telegram-banner p { color: var(--text-muted); margin-bottom: 24px; }
+    .btn-telegram {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #0088cc; color: #fff; padding: 14px 28px;
+      border-radius: 10px; font-size: 1rem; font-weight: 700;
+      text-decoration: none; transition: background .2s, transform .15s;
+    }
+    .btn-telegram:hover { background: #0077b3; transform: translateY(-2px); }
+
+    /* CONTACT */
+    .contact-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+    }
+    .contact-form {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px; margin-top: 48px; /* fallback if not in grid */
+    }
+    .contact-left { margin-top: 48px; }
+    .contact-feature { display: flex; gap: 14px; margin-bottom: 28px; }
+    .cf-icon {
+      width: 40px; height: 40px; border-radius: 10px; background: rgba(246,130,31,0.12);
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .cf-text h4 { font-weight: 700; margin-bottom: 4px; }
+    .cf-text p { color: var(--text-muted); font-size: 0.9rem; }
+
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+    input, textarea, select {
+      width: 100%; background: var(--bg-dark); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px; color: var(--text);
+      font-size: 0.95rem; font-family: inherit; transition: border-color .2s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--cf-orange); }
+    textarea { resize: vertical; min-height: 120px; }
+    select option { background: var(--bg-dark); }
+    .submit-btn {
+      width: 100%; background: var(--cf-orange); color: #fff;
+      border: none; padding: 14px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .submit-btn:hover { background: var(--cf-orange-dark); transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .form-msg { text-align: center; margin-top: 14px; font-size: 0.95rem; display: none; }
+    .form-msg.success { color: #26d474; display: block; }
+    .form-msg.error { color: #ff5555; display: block; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); text-align: center;
+      padding: 40px 24px; color: var(--text-muted); font-size: 0.9rem;
+    }
+    footer a { color: var(--cf-orange); text-decoration: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .stat + .stat { border-left: none; border-top: 1px solid var(--border); }
+      .stats { flex-direction: column; align-items: center; }
+      .payment-box { flex-direction: column; gap: 24px; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="8" fill="#F6821F"/>
+      <path d="M22.5 19.5c.3-1 .2-2-.4-2.8-.6-.7-1.5-1.1-2.4-1.1h-.3c-.1-.8-.5-1.6-1.2-2.1-.7-.5-1.5-.7-2.4-.5-.8.2-1.5.7-2 1.4-.3-.1-.7-.2-1-.2-1.5 0-2.8 1.3-2.8 2.8 0 .2 0 .3.1.5H10c-1.1 0-2 .9-2 2s.9 2 2 2h12.3c.9 0 1.7-.6 1.9-1.5l.3-1z" fill="white"/>
+    </svg>
+    솔박스 클라우드
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">서비스</a></li>
+    <li><a href="#payment">결제</a></li>
+    <li><a href="#contact">문의</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">무료 상담 →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span></span> Enterprise 플랜 제공 중</div>
+    <h1>
+      <em>Cloudflare Enterprise</em><br>
+      지금 바로 사용하세요
+    </h1>
+    <p class="hero-sub">
+      수백만 달러 규모의 기업만 누리던 Cloudflare Enterprise의 모든 기능을,<br>
+      합리적인 가격으로 경험해보세요.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">무료 상담 신청</a>
+      <a href="https://t.me/+uSXMG8ZmumI2YmY1" target="_blank" rel="noopener" class="btn-secondary">텔레그램 문의</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">330+</div>
+    <div class="stat-label">글로벌 데이터센터</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100Tbps+</div>
+    <div class="stat-label">네트워크 용량</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">99.99%</div>
+    <div class="stat-label">SLA 업타임 보장</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">USDT</div>
+    <div class="stat-label">코인 결제 지원</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-label">Enterprise 전용 기능</div>
+    <div class="section-title">일반 플랜과는 차원이 다릅니다</div>
+    <p class="section-desc">Free·Pro·Business 플랜에서는 절대 경험할 수 없는 Enterprise 전용 기능을 제공합니다.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Advanced DDoS Protection</h3>
+        <p>무제한 DDoS 방어 용량으로 어떤 규모의 공격도 차단합니다. Enterprise SLA 기반의 즉각적인 완화를 제공합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>우선순위 글로벌 CDN</h3>
+        <p>Argo Smart Routing 포함, 330개 이상의 PoP에서 전 세계 트래픽을 최적 경로로 라우팅하여 응답속도를 극대화합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>WAF & Zero-day 방어</h3>
+        <p>OWASP Top 10, 사용자 정의 규칙, 관리형 룰셋을 포함한 Enterprise급 WAF로 애플리케이션을 완벽 보호합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>커스텀 SSL / TLS</h3>
+        <p>전용 인증서, 커스텀 암호화 정책, mTLS 설정 등 Enterprise 전용 SSL/TLS 옵션을 자유롭게 구성할 수 있습니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>실시간 로그 & 분석</h3>
+        <p>Logpush를 통한 실시간 로그 스트리밍, 상세 분석 대시보드로 트래픽 인사이트를 즉시 확인할 수 있습니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3>전담 기술 지원</h3>
+        <p>24/7 전담 엔지니어 지원, 온보딩 도우미, SLA 기반 응답 보장으로 언제든 문제를 즉시 해결합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section id="payment" class="payment-section">
+  <div class="section-inner payment-inner">
+    <div class="section-label">결제 안내</div>
+    <div class="section-title">USDT 코인 결제 지원</div>
+    <p class="section-desc">빠르고 안전한 USDT 결제로 간편하게 이용하세요.</p>
+
+    <div class="payment-box">
+      <div class="payment-icon">💰</div>
+      <div class="payment-info" style="flex:1">
+        <h3>USDT (TRC-20 / ERC-20)</h3>
+        <p>
+          모든 결제는 USDT 스테이블코인으로 진행됩니다.<br>
+          입금 확인 후 24시간 이내 Enterprise 계정 설정이 시작됩니다.
+        </p>
+        <div class="coin-badge">✅ USDT 결제 가능</div>
+        <div class="payment-steps">
+          <div class="payment-step">
+            <div class="step-num">1</div>
+            <div class="step-text">아래 문의 폼 또는 텔레그램으로 플랜 상담을 신청하세요.</div>
+          </div>
+          <div class="payment-step">
+            <div class="step-num">2</div>
+            <div class="step-text">견적 확인 후 USDT 지갑 주소를 안내해 드립니다.</div>
+          </div>
+          <div class="payment-step">
+            <div class="step-num">3</div>
+            <div class="step-text">입금 완료 후 Cloudflare Enterprise 설정을 시작합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELEGRAM BANNER -->
+    <div class="telegram-banner">
+      <div class="tg-icon">✈️</div>
+      <h3>텔레그램으로 빠르게 문의하세요</h3>
+      <p>상담부터 결제까지 텔레그램 채널에서 빠르게 진행됩니다.<br>운영시간 없이 365일 응답합니다.</p>
+      <a href="https://t.me/+uSXMG8ZmumI2YmY1" target="_blank" rel="noopener" class="btn-telegram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.5l-2.93-.916c-.638-.197-.651-.638.136-.944l11.438-4.41c.533-.194.999.131.08.991z"/></svg>
+        텔레그램 채널 참여하기
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">문의하기</div>
+    <div class="section-title">지금 바로 상담 받으세요</div>
+    <p class="section-desc">서비스 범위, 가격, 기술 요구사항 무엇이든 문의해 주세요.</p>
+
+    <div class="contact-wrap">
+      <div class="contact-left">
+        <div class="contact-feature">
+          <div class="cf-icon">⚡</div>
+          <div class="cf-text">
+            <h4>빠른 응답</h4>
+            <p>문의 접수 후 평균 1시간 이내 답변드립니다.</p>
+          </div>
+        </div>
+        <div class="contact-feature">
+          <div class="cf-icon">🔐</div>
+          <div class="cf-text">
+            <h4>안전한 거래</h4>
+            <p>검증된 Cloudflare 파트너 채널을 통해 안전하게 진행됩니다.</p>
+          </div>
+        </div>
+        <div class="contact-feature">
+          <div class="cf-icon">🌏</div>
+          <div class="cf-text">
+            <h4>한국어 지원</h4>
+            <p>모든 상담과 기술 지원을 한국어로 제공합니다.</p>
+          </div>
+        </div>
+        <div class="contact-feature">
+          <div class="cf-icon">💎</div>
+          <div class="cf-text">
+            <h4>맞춤 견적</h4>
+            <p>사용량과 요구사항에 맞는 최적의 플랜을 제안합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">이름 / 회사명</label>
+            <input type="text" id="name" name="name" placeholder="홍길동 / 주식회사 예시" required />
+          </div>
+          <div class="form-group">
+            <label for="contact">연락처 (텔레그램 ID 또는 이메일)</label>
+            <input type="text" id="contact" name="contact" placeholder="@telegram_id 또는 email@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="service">문의 유형</label>
+            <select id="service" name="service">
+              <option value="enterprise">Cloudflare Enterprise 플랜 문의</option>
+              <option value="price">가격 및 견적 문의</option>
+              <option value="technical">기술 요구사항 상담</option>
+              <option value="payment">USDT 결제 문의</option>
+              <option value="other">기타</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">문의 내용</label>
+            <textarea id="message" name="message" placeholder="도메인 수, 예상 트래픽, 필요한 기능 등 자유롭게 작성해 주세요." required></textarea>
+          </div>
+          <button type="submit" class="submit-btn" id="submitBtn">문의 보내기 →</button>
+          <div class="form-msg" id="formMsg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 솔박스 클라우드. Cloudflare Enterprise 공식 파트너 채널.</p>
+  <p style="margin-top:8px">
+    <a href="https://t.me/+uSXMG8ZmumI2YmY1" target="_blank" rel="noopener">텔레그램 문의</a>
+    &nbsp;·&nbsp; USDT 결제 지원
+  </p>
+</footer>
+
+<script>
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formMsg = document.getElementById('formMsg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+    formMsg.className = 'form-msg';
+    formMsg.style.display = 'none';
+
+    const data = {
+      name: document.getElementById('name').value,
+      contact: document.getElementById('contact').value,
+      service: document.getElementById('service').value,
+      message: document.getElementById('message').value,
+      timestamp: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+    };
+
+    try {
+      const res = await fetch('https://cloudflarekorea.solbox-demo.workers.dev', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        formMsg.textContent = '✅ 문의가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다!';
+        formMsg.className = 'form-msg success';
+        form.reset();
+      } else {
+        throw new Error('server error');
+      }
+    } catch {
+      formMsg.textContent = '❌ 전송에 실패했습니다. 텔레그램으로 직접 문의해 주세요.';
+      formMsg.className = 'form-msg error';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '문의 보내기 →';
+    }
+  });
+</script>
+</body>
+</html>
