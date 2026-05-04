@@ -80,14 +80,7 @@
     }
     .hero-fade {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(
-        to bottom,
-        rgba(247,247,245,0.97) 0%,
-        rgba(247,247,245,0.90) 28%,
-        rgba(247,247,245,0.45) 52%,
-        rgba(247,247,245,0.08) 72%,
-        transparent 88%
-      );
+      background: radial-gradient(ellipse 60% 40% at 50% 52%, rgba(247,247,245,0.82) 0%, transparent 100%);
     }
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
@@ -606,6 +599,12 @@
     const h  = canvas.height;
     const sy = h * 0.18;
     const pulse = Math.sin(t * 2) * 0.15;
+
+    const g = ctx.createLinearGradient(sx - 28, 0, sx + 28, 0);
+    g.addColorStop(0, 'transparent');
+    g.addColorStop(0.5, `rgba(246,130,31,${0.5 + pulse})`);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g; ctx.fillRect(sx - 28, 0, 56, h);
 
     ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, h);
     ctx.strokeStyle = `rgba(246,130,31,${0.85 + pulse})`;
